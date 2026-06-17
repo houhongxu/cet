@@ -5,7 +5,7 @@ import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 import { UnifiedWebpackPluginV5 } from 'weapp-tailwindcss/webpack'
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
-export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
+export default defineConfig<'webpack5'>(async (merge) => {
   const baseConfig: UserConfigExport<'webpack5'> = {
     projectName: 'client',
     date: '2025-12-10',
@@ -61,7 +61,7 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
       },
     },
     h5: {
-      publicPath: '/',
+      publicPath: process.env.PUBLIC_PATH || '/',
       staticDirectory: 'static',
       output: {
         filename: 'js/[name].[hash:8].js',

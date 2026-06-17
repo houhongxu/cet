@@ -1,6 +1,5 @@
 import { View } from "@tarojs/components";
-import { useLoad } from "@tarojs/taro";
-import Taro from "@tarojs/taro";
+import Taro, { useLoad, useShareAppMessage, useShareTimeline } from "@tarojs/taro";
 import { useState } from "react";
 import ImportantReminders from "./components/ImportantReminders";
 import ScoringInstructions from "./components/ScoringInstructions";
@@ -9,6 +8,7 @@ import TestPaperSelector from "./components/TestPaperSelector";
 import ScoreInput from "./components/ScoreInput";
 import CalculateButton from "./components/CalculateButton";
 import ResultDisplay from "./components/ResultDisplay";
+import ScoreShareCard from "./components/ScoreShareCard";
 import Card from "./components/Card";
 import { calculateScore } from "./utils/scoreCalculator";
 import { ExamLevel } from "./utils/examLevel";
@@ -35,6 +35,28 @@ export default function Index() {
   useLoad(() => {
     console.log("Page loaded.");
   });
+
+  const getShareTitle = () => {
+    const levelText = examLevel === ExamLevel.CET4 ? "四级" : "六级";
+    if (totalScore > 0) {
+      return `我的${levelText}预估分是${totalScore}分，快来一起估分`;
+    }
+    return `四六级考后估分，快来算算你的预估分`;
+  };
+
+  const getSharePath = () => {
+    return "/pages/home/index";
+  };
+
+  useShareAppMessage(() => ({
+    title: getShareTitle(),
+    path: getSharePath(),
+  }));
+
+  useShareTimeline(() => ({
+    title: getShareTitle(),
+    query: "",
+  }));
 
   const handleCalculate = () => {
     // 验证是否选择了试卷
@@ -158,6 +180,27 @@ export default function Index() {
     clearAllStates();
   };
 
+  const handleShareResult = () => {
+    if (!hasResult) {
+      return;
+    }
+
+    if (process.env.TARO_ENV === "h5") {
+      const levelText = examLevel === ExamLevel.CET4 ? "四级" : "六级";
+      const text = `我的${levelText}预估分是${totalScore}分：写译${writingScore}分，听力${listeningScore}分，阅读${readingScore}分。`;
+      Taro.setClipboardData({
+        data: text,
+        success: () => {
+          Taro.showToast({
+            title: "分享文案已复制",
+            icon: "success",
+            duration: 1800,
+          });
+        },
+      });
+    }
+  };
+
   // const subtitle =
   //   examLevel === ExamLevel.CET4
   //     ? "【基于某书赋分统计与对照表】"
@@ -233,15 +276,27 @@ export default function Index() {
       </Card>
 
       {hasResult && (
-        <ResultDisplay
-          level={examLevel}
-          listeningPaper={listeningPaper || ""}
-          readingPaper={readingPaper || ""}
-          writingScore={writingScore}
-          listeningScore={listeningScore}
-          readingScore={readingScore}
-          totalScore={totalScore}
-        />
+        <>
+          <ResultDisplay
+            level={examLevel}
+            listeningPaper={listeningPaper || ""}
+            readingPaper={readingPaper || ""}
+            writingScore={writingScore}
+            listeningScore={listeningScore}
+            readingScore={readingScore}
+            totalScore={totalScore}
+          />
+          <ScoreShareCard
+            level={examLevel}
+            listeningPaper={listeningPaper || ""}
+            readingPaper={readingPaper || ""}
+            writingScore={writingScore}
+            listeningScore={listeningScore}
+            readingScore={readingScore}
+            totalScore={totalScore}
+            onShareClick={handleShareResult}
+          />
+        </>
       )}
 
       <CalculateButton

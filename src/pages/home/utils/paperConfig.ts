@@ -31,14 +31,14 @@ export const paperConfig: Record<ExamLevel, PaperConfig> = {
     reading: ["难", "中", "易"],
     difficulty: {
       listening: {
-        难: PaperDifficulty.MEDIUM,
+        难: PaperDifficulty.HARD,
         中: PaperDifficulty.MEDIUM,
-        易: PaperDifficulty.MEDIUM,
+        易: PaperDifficulty.EASY,
       },
       reading: {
-        难: PaperDifficulty.MEDIUM,
+        难: PaperDifficulty.HARD,
         中: PaperDifficulty.MEDIUM,
-        易: PaperDifficulty.MEDIUM,
+        易: PaperDifficulty.EASY,
       },
     },
   },
@@ -47,14 +47,14 @@ export const paperConfig: Record<ExamLevel, PaperConfig> = {
     reading: ["难", "中", "易"],
     difficulty: {
       listening: {
-        难: PaperDifficulty.MEDIUM,
+        难: PaperDifficulty.HARD,
         中: PaperDifficulty.MEDIUM,
-        易: PaperDifficulty.MEDIUM,
+        易: PaperDifficulty.EASY,
       },
       reading: {
-        难: PaperDifficulty.MEDIUM,
+        难: PaperDifficulty.HARD,
         中: PaperDifficulty.MEDIUM,
-        易: PaperDifficulty.MEDIUM,
+        易: PaperDifficulty.EASY,
       },
     },
   },

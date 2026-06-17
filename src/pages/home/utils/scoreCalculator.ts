@@ -6,7 +6,7 @@ import {
   writingTranslationScores,
   getScore,
 } from "./scoreTables";
-import { getPaperDifficulty, PaperDifficulty } from "./paperConfig";
+import { getPaperDifficulty } from "./paperConfig";
 import { ExamLevel } from "./examLevel";
 
 export interface ScoreCalculationResult {
@@ -102,4 +102,3 @@ export function calculateScore(
     return calculateCet6Score(writingRaw, listeningRaw, readingRaw, listeningPaper, readingPaper);
   }
 }
-

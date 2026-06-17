@@ -39,7 +39,7 @@ export default function ScoreInput({
       return;
     }
     const numVal = parseFloat(val);
-    if (!isNaN(numVal)) {
+    if (!Number.isNaN(numVal)) {
       onChange(numVal);
     } else {
       onChange(null);
